@@ -90,7 +90,7 @@ def main():
         # converter = AttnLabelConverter('0123456789abcdefghijklmnopqrstuvwxyz')
         #==========================================================================
         hangul_range = [chr(code) for code in range(ord('가'), ord('하')+1)]
-        label_str = '0123456789abcdefghijklmnopqrstuvwxyz' + str(hangul_range)
+        label_str = '0123456789abcdefghijklmnopqrstuvwxyz' + hangul_range
         converter = AttnLabelConverter(label_str)
         #==========================================================================
 
@@ -165,19 +165,6 @@ def main():
         except StopIteration:
             trainiter = iter(train_loader)
             i_t, i_s, t_b, t_f, mask_t, mask_s, texts = trainiter.next()
-        #========================================================
-        #dilate코드 추가부분
-        # def morph(mask_s):
-        #     mask_s_array=mask_s.numpy()
-        #     kernel=np.ones((3,3), np.uint8)
-        #     mask_s_array=np.squeeze(mask_s_array)
-        #     dilate_array=cv2.dilate(mask_s_array,kernel,iterations=1)
-
-        #     mask_s=torch.from_numpy(dilate_array)
-        #     return mask_s
-        # mask_s = morph(mask_s)
-        #========================================================
-
         i_t = i_t.cuda()
         i_s = i_s.cuda()
         t_b = t_b.cuda()

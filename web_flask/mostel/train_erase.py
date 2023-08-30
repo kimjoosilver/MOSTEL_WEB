@@ -9,9 +9,7 @@ from tqdm import tqdm
 from torch.utils.data import DataLoader
 from loss import build_generator_erase_loss, build_discriminator_loss
 from datagen import erase_dataset
-# from MOSTEL.Erase.model_erase import Generator, Discriminator
 from model_erase import Generator, Discriminator
-
 from torch.utils.tensorboard import SummaryWriter
 
 
@@ -99,18 +97,16 @@ def main():
         except StopIteration:
             trainiter = iter(train_loader)
             i_s, t_b, mask_s = trainiter.next()
-#=============================================================
+
+        # ##############cv2.dilation
         # def morph(mask_s):
-        #     mask_s_array=mask_s.numpy()
-        #     kernel=np.ones((3,3), np.uint8)
-        #     mask_s_array=np.squeeze(mask_s_array)
-        #     dilate_array=cv2.dilate(mask_s_array,kernel,iterations=1)
+        #     img = cv2.imread(mask_s, cv2.IMREAD_GRAYSCALE)
 
-        #     mask_s=torch.from_numpy(dilate_array)
-        #     return mask_s
+        #     kernel = np.ones((3, 3), np.uint8)
+        #     mask_s = cv2.dilate(img, kernel, iterations=2)
+        
         # mask_s = morph(mask_s)
-#=============================================================
-
+        
         i_s = i_s.cuda()
         t_b = t_b.cuda()
         mask_s = mask_s.cuda()

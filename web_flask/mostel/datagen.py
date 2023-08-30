@@ -7,7 +7,7 @@ from torch.utils.data import Dataset
 from torchvision import transforms
 from torch.utils.data.sampler import Sampler
 from PIL import Image
-import standard_text
+from mostel import standard_text
 
 
 class TwoStreamBatchSampler(Sampler):
@@ -81,13 +81,11 @@ class custom_dataset(Dataset):
                     lines = f.readlines()
                 self.name_list += [os.path.join(tmp_data_dir, '{}', line.strip().split()[0]) for line in lines]
                 for line in lines:
-                    # tmp_key, tmp_val = line.strip().split()
-                    # self.i_t_list[tmp_dataset_name + '_' + tmp_key] = tmp_val
+                    # tmp_key, tmp_val = line.strip().split()[0], line.strip().split[1:]
                     line_lst = line.strip().split()
                     tmp_key = line_lst[0]
                     tmp_val = ' '.join(line_lst[1:])
                     self.i_t_list[tmp_dataset_name + '_' + tmp_key] = tmp_val
-
 
             self.len_synth = len(self.name_list)
             assert self.len_synth == len(self.i_t_list)
@@ -116,12 +114,9 @@ class custom_dataset(Dataset):
             assert data_dir is not None
             self.data_dir = data_dir
             with open(os.path.join(data_dir, '../' + i_t_name), 'r') as f:
-            # with open(os.path.join(data_dir,  i_t_name), 'r') as f:
-
                 lines = f.readlines()
             self.name_list = [line.strip().split()[0] for line in lines]
-            # self.i_t_list = {line.strip().split()[0]: line.strip().split()[1] for line in lines}
-            self.i_t_list = {line.strip().split()[0]: ' '.join(line.strip().split()[1:]) for line in lines}
+            self.i_t_list = {line.strip().split()[0]: ' '.join(line.strip().split()[1:]) for line in lines}     # 수정
 
     def custom_len(self):
         return self.len_synth, self.len_real

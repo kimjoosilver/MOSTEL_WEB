@@ -6,7 +6,7 @@ import numpy as np
 from torchvision.models import vgg19
 from PIL import Image
 import torch.nn.functional as F
-from tps_spatial_transformer import TPSSpatialTransformer
+from mostel.tps_spatial_transformer import TPSSpatialTransformer
 
 
 class Conv_bn_block(torch.nn.Module):
